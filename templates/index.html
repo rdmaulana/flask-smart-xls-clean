@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Smart Cleaning for Excel</title>
+
+    <link href="{{  url_for('static', filename='css/tabler.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/tabler-vendors.min.css') }}" rel="stylesheet"/>
+  </head>
+  <body class="antialiased border-top-wide border-primary d-flex flex-column">
+    <div class="flex-fill d-flex flex-column justify-content-center py-4">
+      <div class="container-tight py-6">
+        <form class="card card-md" method="POST" action="" enctype="multipart/form-data">
+          
+          <div class="card-body">
+            <h1 class="text-center">Smart Cleaning Excel</h1>
+            <h2 class="card-title text-center mb-4">Upload file excel (.xls / .xlsx)</h2>
+            <div class="mb-3">
+              <label class="form-label">Start ID</label>
+              <input type="number" class="form-control" name="id" placeholder="set id terbaru">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">File XLS/XLSX</label>
+                <input type="file" class="form-control" name="file">
+              </div>
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
+          </div>
+        </form>
+        <div class="text-center text-muted mt-3">
+            Made with <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg> by @radxden
+        </div>
+      </div>
+    </div>
+    <script type="application/javascript" src="{{ url_for('static', filename='js/tabler.min.js') }}"></script>
+  </body>
+</html>
