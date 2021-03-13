@@ -28,7 +28,7 @@ def uploadExcel():
 
         cleanExcel(file_path, start_id)
 
-        csv = session["xls"] if "xls" in session else ""
+        # csv = session["xls"] if "xls" in session else ""
         csv_name = session['csv_name']
 
         return redirect(url_for('success', file_id=csv_name))
@@ -98,7 +98,7 @@ def cleanExcel(file_path, start_id):
 
     print("Jumlah akhir: {}".format(xls.shape))
   
-    session['xls'] = xls.to_csv(index=False, header=True, encoding="utf-8")
+    # session['xls'] = xls.to_csv(index=False, header=True, encoding="utf-8")
     
     path_file = 'media/result/'
     outfile_name = time.strftime("%Y%m%d-%H%M%S")
