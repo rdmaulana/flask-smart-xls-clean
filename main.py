@@ -28,27 +28,9 @@ def uploadExcel():
 
         cleanExcel(file_path, start_id)
 
-        # csv = session["xls"] if "xls" in session else ""
         csv_name = session['csv_name']
 
         return redirect(url_for('success', file_id=csv_name))
-
-        # resp = make_response(csv)
-        # resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
-        # resp.headers["Content-Type"] = "text/csv"
-        # return resp
-
-        # buf_str = io.StringIO(csv)
-
-        # buf_byt = io.BytesIO(buf_str.read().encode("utf-8"))
-        # buf_byt.seek(0)
-
-        # return send_file(
-        #             buf_byt,
-        #             mimetype="text/csv",
-        #             as_attachment=True,
-        #             attachment_filename="clean_{}.csv".format(time.strftime("%Y%m%d-%H%M%S"))
-        # )
     else:
         return redirect(url_for('index'))
 
@@ -65,8 +47,6 @@ def download(filename):
 def cleanExcel(file_path, start_id):
     xls = pd.read_excel(file_path)
     xls.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True)
-
-    print("Jumlah awal: {}".format(xls.shape))
 
     xls.rename(columns = {
         'NIK':'nik',
@@ -95,11 +75,7 @@ def cleanExcel(file_path, start_id):
         xls['telp'] = xls['telp'].str.split('.').str[0]
         xls['telp'] = xls['telp'].replace('nan',np.NaN)
         xls['telp'] =  '0' + xls['telp']
-
-    print("Jumlah akhir: {}".format(xls.shape))
   
-    # session['xls'] = xls.to_csv(index=False, header=True, encoding="utf-8")
-    
     path_file = 'media/result/'
     outfile_name = time.strftime("%Y%m%d-%H%M%S")
     session['csv_name'] = f'{outfile_name}'
