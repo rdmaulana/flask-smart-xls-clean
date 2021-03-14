@@ -68,7 +68,7 @@ def cleanExcel(file_path, start_id):
     xls.insert(2, 'nama_ktp', xls['nama'])
     xls.insert(6, 'status', 0)
 
-    del xls['NO']
+    # del xls['NO']
     del xls['UMUR']
     del xls['JENIS_PEKERJAAN']
 
