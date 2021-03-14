@@ -90,10 +90,13 @@ def cleanExcel(file_path, start_id):
     if xls['kab_id'].dtypes == 'float64':
         xls['kab_id'] = xls['kab_id'].astype(str)
         xls['kab_id'] = xls['kab_id'].str.split('.').str[0]
+        xls['kab_id'] = xls['kab_id'].replace('nan',np.NaN)
 
     if xls['kategori'].dtypes == 'int64':
         xls['kategori'] = xls['kategori'].astype(str)
         xls['kategori'] =  '0' + xls['kategori']
+
+    xls['alamat'] = xls['alamat'].replace(';','')
     
     uid = str(uuid.uuid4())[:4]
     path_file = 'media/result/'
