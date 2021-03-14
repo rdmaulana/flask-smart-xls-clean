@@ -84,6 +84,9 @@ def cleanExcel(file_path, start_id):
         xls['telp'] = xls['telp'].replace('nan',np.NaN)
         xls['telp'] =  '0' + xls['telp']
 
+    if xls['telp'].dtypes == 'object':
+        xls['telp'] = xls['telp'].str.split('/').str[0]
+
     if xls['kab_id'].dtypes == 'float64':
         xls['kab_id'] = xls['kab_id'].astype(str)
         xls['kab_id'] = xls['kab_id'].str.split('.').str[0]
