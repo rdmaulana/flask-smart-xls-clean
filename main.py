@@ -86,6 +86,9 @@ def cleanExcel(file_path, start_id):
 
     if xls['telp'].dtypes == 'object':
         xls['telp'] = xls['telp'].str.split('/').str[0]
+        xls['telp'] = xls['telp'].str.replace('\+62','0')
+        xls['telp'] = xls['telp'].str.replace(' ','')
+        xls['telp'] = xls['telp'].str.replace('-','')
 
     if xls['kab_id'].dtypes == 'float64':
         xls['kab_id'] = xls['kab_id'].astype(str)
@@ -94,7 +97,7 @@ def cleanExcel(file_path, start_id):
 
     if xls['kategori'].dtypes == 'int64':
         xls['kategori'] = xls['kategori'].astype(str)
-        xls['kategori'] =  '0' + xls['kategori']
+        xls['kategori'] = xls['kategori'].apply(lambda x: '0' + x if len(x) == 1 else x)
 
     xls['alamat'] = xls['alamat'].replace(';','')
     
