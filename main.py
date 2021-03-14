@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import io
 import time
+import uuid
 
 from flask import Flask, render_template, request, redirect, url_for, Response, session, send_file, make_response, send_from_directory
 from os.path import join, dirname, realpath
@@ -55,7 +56,10 @@ def cleanExcel(file_path, start_id):
         'TANGGAL_LAHIR':'tgl_lahir',
         'NO_HP':'telp', 
         'INSTANSI_PEKERJAAN':'instansi',
-        'ALAMAT KTP': 'alamat' 
+        'ALAMAT KTP': 'alamat',
+        'ALAMAT_KTP': 'alamat',
+        'KODE_KAB_KOTA_TEMPAT_KERJA': 'kab_id',
+        'KODE_KATEGORI': 'kategori'
     }, inplace = True)
 
     xls['nik'] = xls['nik'].astype(str) 
@@ -63,6 +67,10 @@ def cleanExcel(file_path, start_id):
     xls.insert(0, 'id', range(int(start_id), int(start_id) + len(xls)))
     xls.insert(2, 'nama_ktp', xls['nama'])
     xls.insert(6, 'status', 0)
+
+    del xls['NO']
+    del xls['UMUR']
+    del xls['JENIS_PEKERJAAN']
 
     xls.drop(xls[xls['tgl_lahir'].isnull()].index, inplace = True)
     xls.drop(xls[xls['nik'].isnull()].index, inplace = True)
@@ -75,9 +83,18 @@ def cleanExcel(file_path, start_id):
         xls['telp'] = xls['telp'].str.split('.').str[0]
         xls['telp'] = xls['telp'].replace('nan',np.NaN)
         xls['telp'] =  '0' + xls['telp']
-  
+
+    if xls['kab_id'].dtypes == 'float64':
+        xls['kab_id'] = xls['kab_id'].astype(str)
+        xls['kab_id'] = xls['kab_id'].str.split('.').str[0]
+
+    if xls['kategori'].dtypes == 'int64':
+        xls['kategori'] = xls['kategori'].astype(str)
+        xls['kategori'] =  '0' + xls['kategori']
+    
+    uid = str(uuid.uuid4())[:4]
     path_file = 'media/result/'
-    outfile_name = time.strftime("%Y%m%d-%H%M%S")
+    outfile_name = '{0}{1}'.format(time.strftime("%Y%m%d-%H%M%S-"),uid)
     session['csv_name'] = f'{outfile_name}'
     xls.to_csv(f'{path_file}{outfile_name}.csv', index=False, header=True, encoding="utf-8")
                  
