@@ -46,7 +46,7 @@ def download(filename):
     return send_from_directory(directory=uploads, filename=filename)
 
 def cleanExcel(file_path, start_id):
-    xls = pd.read_excel(file_path, skiprows =3)
+    xls = pd.read_excel(file_path)
     xls.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True)
 
     print("Jumlah awal: {}".format(xls.shape))
