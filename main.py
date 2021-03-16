@@ -46,8 +46,10 @@ def download(filename):
     return send_from_directory(directory=uploads, filename=filename)
 
 def cleanExcel(file_path, start_id):
-    xls = pd.read_excel(file_path)
+    xls = pd.read_excel(file_path, skiprows =3)
     xls.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True)
+
+    print("Jumlah awal: {}".format(xls.shape))
 
     xls.rename(columns = {
         'NIK':'nik',
@@ -78,6 +80,9 @@ def cleanExcel(file_path, start_id):
     xls.drop(xls[xls['nik'].str.len() < 16].index, inplace = True)
     xls.drop(xls[xls.duplicated(['nik'])].index, inplace = True)
 
+    if xls['tgl_lahir'].dtypes == 'object':
+        xls['tgl_lahir'] = pd.to_datetime(xls['tgl_lahir'])
+
     if xls['telp'].dtypes == 'float64':
         xls['telp'] = xls['telp'].astype(str)
         xls['telp'] = xls['telp'].str.split('.').str[0]
@@ -100,7 +105,9 @@ def cleanExcel(file_path, start_id):
         xls['kategori'] = xls['kategori'].apply(lambda x: '0' + x if len(x) == 1 else x)
 
     xls['alamat'] = xls['alamat'].replace(';','')
-    
+
+    print("Jumlah akhir: {}".format(xls.shape))
+
     uid = str(uuid.uuid4())[:4]
     path_file = 'media/result/'
     outfile_name = '{0}{1}'.format(time.strftime("%Y%m%d-%H%M%S-"),uid)
